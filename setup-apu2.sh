@@ -166,6 +166,10 @@ setup_user(){
   sed -i '/^docker:/ s/$/'$XUSER'/' $_ROOT/etc/group
 }
 
+disable_root_login(){
+  sed -i '/^root:/ s#/bin/sh#/sbin/nologin#' $_ROOT/etc/passwd
+}
+
 run() {
   check_env
   check_network
@@ -178,6 +182,7 @@ run() {
   setup_apk_repository
   install_extra_apks
   setup_user
+  disable_root_login
   umount_partitions
 }
 
