@@ -2,25 +2,6 @@
 #/boot/vmlinuz-lts modules=loop,squashfs,sd-mod,usb-storage nomodeset console=ttyS0,115200 initrd=/boot/initramfs-lts
 set -ex
 
-XUSER=sysres
-HOST=alpine-docker
-KEYMAP="fr fr"
-TIMEZONE="Europe/Paris"
-FS=ext4
-FEATURES="ata base ide scsi usb virtio $FS network"
-MODULES="sd-mod,usb-storage,$FS"
-MIRROR=http://mirrors.ircam.fr/pub/alpine
-IFACE=eth2
-TARGET_DEV=/dev/sda
-
-_RELEASE=$(awk -F. -v OFS=. '{print $1,$2}' /etc/alpine-release)
-_ARCH=$(uname -m)
-_REPO_MAIN=$MIRROR/v$_RELEASE/main
-_REPO_COMMUNITY=$MIRROR/v$_RELEASE/community
-
-_ROOT=/mnt/root
-_BOOT=/mnt/boot
-
 _exit_with_msg() {
   echo "$1"
   exit 111
@@ -192,5 +173,50 @@ run() {
   disable_root_login
   umount_partitions
 }
+
+usage(){
+  cat <<EOF
+Usage: setup-apu2 [Options]
+Options:
+  -h        : show this help message
+  -d        : target device (default: /dev/sda)
+  -i        : network interface to setup (default: eth2)
+  -k        : keymap to set (default: 'fr fr')
+  -m        : apk mirror (default: http://mirrors.ircam.fr/pub/alpine)
+  -n        : host name to set (default: alpine-docker)
+  -t        : timezone (default: Europe/Paris)
+  -u        : admin user (default: sysres)
+
+EOF
+}
+
+#---------------------
+XUSER=sysres
+HOST=alpine-docker
+KEYMAP="fr fr"
+TIMEZONE="Europe/Paris"
+MIRROR=http://mirrors.ircam.fr/pub/alpine
+IFACE=eth2
+TARGET_DEV=/dev/sda
+
+_ROOT=/mnt/root
+_BOOT=/mnt/boot
+
+opt="$(getopt -o hd:i:k:m:n:t:u: -- "$@")" || usage "Parse options failed"
+eval set -- "${opt}"
+while true; do
+    case "${1}" in
+    -d) TARGET_DEV="${2}"; shift 2 ;;
+    -h) usage; exit 0 ;;
+    -i) IFACE="${2}"; shift 2 ;;
+    -k) KEYMAP="${2}"; shift 2 ;;
+    -m) MIRROR="${2}"; shift 2 ;;
+    -n) HOST="${2}"; shift 2 ;;
+    -t) TIMEZONE="${2}"; shift 2 ;;
+    -u) XUSER="${2}"; shift 2 ;;
+    --) shift; break ;;
+    *) _exit_with_msg "Internal error!" ;;
+    esac
+done
 
 run

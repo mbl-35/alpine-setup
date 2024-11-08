@@ -2,6 +2,18 @@
 
 Because I can't challenge the alpine mkimage tool properly and spent to mutch time with it..
 
+```
+Usage: setup-apu2 [Options]
+Options:
+  -h        : show this help message
+  -d        : target device (default: /dev/sda)
+  -i        : network interface to setup (default: eth2)
+  -k        : keymap to set (default: 'fr fr')
+  -m        : apk mirror (default: http://mirrors.ircam.fr/pub/alpine)
+  -n        : host name to set (default: alpine-docker)
+  -t        : timezone (default: Europe/Paris)
+  -u        : admin user (default: sysres)
+```
 ### Use this script
 - Get the Standard ISO Edition **x86_64** released on [Alpine Download site](https://www.alpinelinux.org/downloads/)
 - Flash USB with etcher
@@ -25,8 +37,15 @@ then from console:
 - download installation script and start it
   ```
   $ wget https://github.com/mbl-35/alpine-setup/raw/refs/heads/main/setup-apu2.sh
-  $ sh ./setup-apu2.sh
+  $ sh ./setup-apu2.sh [user (default:sysres)]
   ```
+- remove USB stick and **reboot**
+
+after, from console:
+- login with created admin user (`-u` option, no password)
+- set your password `passwd`
+- you're ready to work :)
+
 
 ### Features
 
@@ -37,3 +56,5 @@ then from console:
 - [x] add specific apk repos (main/community)
 - [x] add extra packages (ufw/curl/docker)
 - [x] configure extra packages and user
+- [x] disable root login
+- [x] flexibility with input parameters
