@@ -132,10 +132,15 @@ install_extra_apks() {
     set -e
 		apk update
     apk add sudo ufw curl docker docker-cli-compose
+    /usr/sbin/ufw default allow outgoing
     /usr/sbin/ufw default deny incoming
     /usr/sbin/ufw allow ssh
-    /usr/sbin/ufw enable
+    /usr/sbin/ufw limit ssh
   " | sed -E 's/^ *//' | /usr/sbin/chroot $_ROOT /bin/sh -x 
+}
+
+setup_ufw(){
+  rc-add ufw default
 }
 
 setup_docker() {
@@ -169,6 +174,7 @@ run() {
   setup_docker
   setup_apk_repository
   install_extra_apks
+  setup_ufw
   setup_user
   disable_root_login
   umount_partitions
