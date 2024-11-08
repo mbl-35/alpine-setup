@@ -37,7 +37,7 @@ then from console:
 - download installation script and start it
   ```
   $ wget https://github.com/mbl-35/alpine-setup/raw/refs/heads/main/setup-apu2.sh
-  $ sh ./setup-apu2.sh [user (default:sysres)]
+  $ sh ./setup-apu2.sh [options]
   ```
 - during installation, only confirm to erase the specified device:
    ```sh
