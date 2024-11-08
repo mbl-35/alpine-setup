@@ -138,7 +138,7 @@ setup_sshd() {
     -e 's/^#PubkeyAuthentication .*/PubkeyAuthentication yes/g' \
     -e 's/^#PermitRootLogin .*/PermitRootLogin no/g' \
     $_ROOT/etc/ssh/sshd_config
-  echo "AllowUsers $XUSER" >> $$_ROOT/etc/ssh/sshd_config
+  echo "AllowUsers $XUSER" >> $_ROOT/etc/ssh/sshd_config
 }
 
 install_extra_apks() {
