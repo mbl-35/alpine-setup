@@ -136,6 +136,7 @@ install_extra_apks() {
     /usr/sbin/ufw default deny incoming
     /usr/sbin/ufw allow ssh
     /usr/sbin/ufw limit ssh
+    /usr/sbin/ufw enable
   " | sed -E 's/^ *//' | /usr/sbin/chroot $_ROOT /bin/sh -x 
 }
 
