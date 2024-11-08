@@ -44,6 +44,11 @@ make_file() {
     chmod "$PERMS" "$FILENAME"
 }
 
+rc_add() {
+    mkdir -p "$_ROOT/etc/runlevels/$2"
+    ln -sf "/etc/init.d/$1" "$_ROOT/etc/runlevels/$2/$1"
+}
+
 check_env() {
   [ "$(id -u)" -eq "0" ] || _exit_with_msg "You need to run this as root"
   [ -f /etc/apk/world ] || _exit_with_msg "You should be running this from alpine"
@@ -158,6 +163,8 @@ setup_docker() {
       "log-driver": "json-file",
       "log-opts": {"max-size": "10m", "max-file": "3"}
     }' | sed 's/^ {4}//' | make_file root:root 0644 "$_ROOT"/etc/docker/daemon.json
+  
+  rc_add docker boot
 }
 
 setup_user(){
