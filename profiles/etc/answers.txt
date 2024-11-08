@@ -1,0 +1,17 @@
+KEYMAPOPTS="fr fr"
+HOSTNAMEOPTS="-n alpine"
+USEROPTS="-u -g docker,sudo sysres"
+TIMEZONEOPTS="-z Europe/Paris"
+SSHDOPTS=openssh
+NTPOPTS=chrony
+APKREPOSOPTS="-f -c"
+
+INTERFACESOPTS=none
+PROXYOPTS=none
+LBUOPTS=none
+APKCACHEOPTS=none
+
+
+# Use /dev/sda as a system disk
+DISKOPTS="-m sys /dev/sda"
+

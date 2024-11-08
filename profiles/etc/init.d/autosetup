@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+name="Autosetup init script"
+start() {
+    # Setup Alpine
+	/sbin/setup-alpine -f /etc/answers.txt -e
+	rm /etc/answers.txt
+
+    # Disable SSH Root Login
+    sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+
+    # Create user and set as sudoer
+    /usr/sbin/adduser -D -u 1001 sysres
+    echo "sysres ALL=(ALL) ALL" > /etc/sudoers.d/sysres
+    chmod 0640 /etc/sudoers.d/sysres
+
+	# Allow docker containers to run
+	/usr/sbin/adduser sysres docker
+
+    # Configure firewall
+    /usr/sbin/ufw default deny incoming
+    /usr/sbin/ufw allow ssh
+    /usr/sbin/ufw enable
+}

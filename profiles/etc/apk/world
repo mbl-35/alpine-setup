@@ -1,0 +1,6 @@
+alpine-base
+openssh
+ufw
+docker
+docker-cli-compose
+sudo
