@@ -20,7 +20,7 @@ then from console:
   > if no network, activate interface with following commands and recheck
     ```sh
      $ ifconfig eth2 up
-     $ udhcpc -i eth0
+     $ udhcpc -i eth2
     ```
 - download installation script and start it
   ```
