@@ -140,7 +140,7 @@ install_extra_apks() {
 }
 
 setup_ufw(){
-  rc-add ufw default
+  rc_add ufw default
 }
 
 setup_docker() {
