@@ -39,6 +39,12 @@ then from console:
   $ wget https://github.com/mbl-35/alpine-setup/raw/refs/heads/main/setup-apu2.sh
   $ sh ./setup-apu2.sh [user (default:sysres)]
   ```
+- during installation, only confirm to erase the specified device:
+   ```sh
+   WARNING: The following disk(s) will be erased:
+      sda   (16.0 GB ATA      SATA SSD)
+  WARNING: Erase the above disk(s) and continue? (y/n) [n] y
+   ```
 - remove USB stick and **reboot**
 
 after, from console:
