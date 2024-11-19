@@ -144,6 +144,8 @@ setup_ufw(){
   rc_add ufw default
 }
 
+
+
 setup_docker() {
   make_dir root:root 0755 "$_ROOT"/etc/docker
   echo '{
@@ -227,3 +229,77 @@ while true; do
 done
 
 run
+
+# -------------
+echo
+echo "   USE OF THIS COMPUTING SYSTEM IS RESTRICTED TO THE AUTHORIZED USERS."
+echo "   ALL INFORMATION AND COMMUNICATIONS ON THIS SYSTEM ARE SUBJECT TO REVIEW,"
+echo "   MONITORING, AND RECORDING AT ANY TIME WITHOUT NOTICE."
+echo "   UNAUTHORIZED ACCESS OR USE MAY BE SUBJECT TO PROSECUTION."
+echo
+
+/etc/profile.d/99motd.sh ??
+
+mkdir /etc/periodic/5min
+*/5 * * * * run-parts /etc/periodic/5min
+rc-service crond start && rc-update add crond
+
+/etc/motd
+chmod +x motd
+
+echo 'printf '"'"'%s\t%s\n%s\t\t%s\n'"'"' Installed Upgradable "$(apk list --install | wc -l)" "$(apk list --upgradable | wc -l)" > /etc/apk/status' 
+>/etc/periodic/5min/apk-status
+chmod +x /etc/periodic/5min/apk-status
+# #!/bin/bash
+
+# function color (){
+#   echo "\e[$1m$2\e[0m"
+# }
+
+# function setCountColor (){
+#   local input=$1
+#   countColor="38;5;16;48;5;242"
+
+#   if [ $input == 0 ]; then
+#     countColor="38;5;16;48;5;242"
+#   else
+#     countColor="38;5;16;48;5;71"
+#   fi
+# }
+
+# function msgFormat (){
+#   local input=$1
+#   local packagesPlural="s"
+
+#   if [[ $input -eq 0 ||  $input -eq 1 ]]; then
+#     packagesPlural=""
+#   fi
+#   echo "package$packagesPlural"
+# }
+
+# msgColor="38;5;103"
+
+# # Count
+# apt-get update --quiet=2
+# pkgCount="$(apt-get -s dist-upgrade | grep -Po '^\d+(?= upgraded)')"
+# setCountColor "$pkgCount"
+
+# # Message
+# msgHeader="$(color $msgColor \*)"
+# msgCount="$(color $countColor " $pkgCount ")"
+# msgLabel="$(color $msgColor "$(msgFormat $pkgCount) can be upgraded")"
+
+# updateMsg=" $msgHeader $msgCount $msgLabel"
+
+# # Output To Static Script
+# OUT="/etc/update-motd.d/"$(basename $0)
+# exec >${OUT}
+# echo "#!/bin/bash"
+# echo
+# echo "#####################################################"
+# echo "#              DO NOT EDIT THIS SCRIPT              #"
+# echo "#     EDIT: /etc/update-motd-static.d/20-update     #"
+# echo "#####################################################"
+# echo "cat <<EOF"
+# echo -e "\n$updateMsg\n"
+# echo "EOF"
